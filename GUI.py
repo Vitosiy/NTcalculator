@@ -188,11 +188,11 @@ def NTcalculator():
                     break
                 if event8 == 'run':
                     window_Shenks.FindElement('_output_').Update('')
-                    if not values8['first'].isdigit() or not values8['second'].isdigit():
+                    if not values8['value'].isdigit() or not values8['mod'].isdigit():
                         print("Неверно введены числа!")
                         continue
-                    a = int(values8['first'])
-                    b = int(values8['second'])
+                    a = int(values8['value'])
+                    b = int(values8['mod'])
                     result = Algorithms.RESSOL(a, b)
                     print(result)
 
@@ -218,6 +218,9 @@ def NTcalculator():
                     a = int(values9['value'])
                     b = int(values9['mod'])
                     result = Algorithms.is_primitive_root(a, b)
+                    if result == -1:
+                        print('Невозможно факторизовать функцию Эйлера!'.format(a))
+                        continue
                     if result == True:
                         print("{0} - первообразный корень по модулю {1}".format(a,b))
                     else:

@@ -81,8 +81,9 @@ def compare(a, b, mod):
         a, b = a * c, b * c
         b = b % mod
         res: str = str(b)
+
         for i in range(1, d):
-            res += ", " + str(b + 107 * i)
+            res += ", " + str(b + mod * i)
         return "x сравним с {0} по модулю {1}".format(res, tmp_mod)
     else:
         return "Ошибка! Нет решений!"
@@ -268,7 +269,8 @@ def calculateLegendre(a, p):
 ###############################################################################
 
 def RESSOL(n, p):
-    assert calculateLegendre(n, p) == 1, "Введён не квадратичный вычет по модулю"
+    if not calculateLegendre(n, p) == 1:
+        return "Введён не квадратичный вычет по модулю"
     q = p - 1
     s = 0
     while q % 2 == 0:
@@ -329,7 +331,7 @@ def factorPR(n):
 
 
 def factor(n):
-    if ((abs(n) == 1) or (n == 0)): raise ValueError('Невозможно факторизовать {0}'.format(n))
+    if ((abs(n) == 1) or (n == 0)): return -1
     factspow = []
     currfact = None
     thecount = 1
@@ -350,7 +352,7 @@ def factors(n):
     if (is_prime(n)):
         return [n]
     fact = factorone(n)
-    if ((abs(n) == 1) or (n == 0)): raise ValueError('Невозможно факторизовать \"{0}\"'.format(n))
+    if ((abs(n) == 1) or (n == 0)): return -1
     facts = factors(n // fact) + factors(fact)
     facts.sort()
     return facts
@@ -364,12 +366,16 @@ def euler_phi(n):
 
 
 def prime_divisors(n):
-    return tuple(set(factors(n)))
+    res = factors(n)
+    if res == -1:
+        return -1
+    else:
+        return tuple(set(res))
 
 
 def carmichael_lambda(n):
     if n == 1: return 1
-    if n <= 0: raise ValueError("Введенное n должно быть положительным целым числом!")
+    if n <= 0: return -2
 
 
     def _carmichael_lambda_primepow(theprime, thepow):
@@ -387,6 +393,8 @@ def is_primitive_root(g, n):
     order = euler_phi(n)
     if carmichael_lambda(n) != order: return False
     orderfacts = prime_divisors(order)
+    if orderfacts == -1:
+        return -1
     for fact in orderfacts:
         if pow(g, order // fact, n) == 1: return False
     return True
