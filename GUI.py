@@ -94,27 +94,45 @@ def NTcalculator():
 
         if event == 'chinese':
             layout_chinese = [
-                [sg.Text('Число сравнений:'), sg.Combo([i for i in range(1,11)], size=(5, 1), key='count')],
-                [sg.Text('x =='), sg.InputText(key='value', change_submits= True,size=(5,1)),
-                sg.Text('mod'), sg.InputText(key='mod', change_submits= True,size=(5,1))],
+                [sg.Text('x =='), sg.InputText(key='value1', change_submits= True,size=(5,1)),
+                sg.Text('mod'), sg.InputText(key='mod1', change_submits= True,size=(5,1))],
+                [sg.Text('x =='), sg.InputText(key='value2', change_submits=True, size=(5, 1)),
+                 sg.Text('mod'), sg.InputText(key='mod2', change_submits=True, size=(5, 1))],
+                [sg.Text('x =='), sg.InputText(key='value3', change_submits=True, size=(5, 1)),
+                 sg.Text('mod'), sg.InputText(key='mod3', change_submits=True, size=(5, 1))],
+                [sg.Text('x =='), sg.InputText(key='value4', change_submits=True, size=(5, 1)),
+                 sg.Text('mod'), sg.InputText(key='mod4', change_submits=True, size=(5, 1))],
                 [sg.Text('РЕЗУЛЬТАТ: '), sg.Output(key='_output_')],
                 [sg.Submit('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
-            window_chinese = sg.Window('Китайскай теорема об остатках', layout_chinese,size=(350,120))
+            window_chinese = sg.Window('Китайскай теорема об остатках', layout_chinese)
             while True:  # The Event Loop
                 event5, values5 = window_chinese.read()
                 if event5 in (None, 'ВЫХОД'):
                     window_chinese.close()
                     break
                 if event5 == 'run':
+                    flag = False
+                    values, mods = [], []
                     window_chinese.FindElement('_output_').Update('')
-                    if not values5['value'].isdigit() or not values5['mod'].isdigit():
+                    for key, value in values5.items():
+                        if key.startswith('value'):
+                            if len(value) > 0 and not value.isdigit():
+                                flag = True
+                                break
+                            if not value == '':
+                                values.append(int(value))
+                        if key.startswith('mod'):
+                            if len(value) > 0 and not value.isdigit():
+                                flag = True
+                                break
+                            if not value == '':
+                                mods.append(int(value))
+                    if flag == True:
+                        flag == False
                         print("Неверно введены числа!")
                         continue
-                    value, mod = [], []
-                    value.append(int(values5['value']))
-                    mod.append(int(values5['mod']))
-                    result = Algorithms.chinese_remainder(value, mod)
+                    result = Algorithms.chinese_remainder(values, mods)
                     print(result)
 
         if event == 'cmp_n':

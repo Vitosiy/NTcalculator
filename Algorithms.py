@@ -92,7 +92,9 @@ def compare(a, b, mod):
 ##############################################################################
 
 
-# Китайская теорема об остатках: ax == b(mod)
+# Китайская теорема об остатках: x == b(mod)
+#  mod = [2, 3, 5, 7]
+#  b   = [1, 2, 2, 5]
 ##############################################################################
 def chinese_remainder(b, mod):
     sum = 0
@@ -100,7 +102,7 @@ def chinese_remainder(b, mod):
     for mod_i, b_i in zip(mod, b):
         p = prod // mod_i
         sum += b_i * mul_inv(p, mod_i) * p
-    return sum % prod
+    return "x сравним с {0} по модулю {1}".format(sum % prod, prod)
 
 
 def mul_inv(a, b):
@@ -113,12 +115,6 @@ def mul_inv(a, b):
         x0, x1 = x1 - q * x0, x0
     if x1 < 0: x1 += b0
     return x1
-
-#if __name__ == '__main__':
- #   mod = [2, 3, 5, 7]
-  #  b = [1, 2, 2, 5]
-   # print(chinese_remainder(b, mod))
-
 
 ##############################################################################
 
