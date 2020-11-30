@@ -37,12 +37,12 @@ def NTcalculator():
                 if event2 == 'run':
                     window_gcd.FindElement('_output_').Update('')
                     if not values2['first'].isdigit() or not values2['second'].isdigit():
-                        print("Неверно введены числа!")
+                        window_gcd.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values2['first'])
                     b = int(values2['second'])
                     result = Algorithms.gcd(a, b)
-                    print(result)
+                    window_gcd.FindElement('_output_').Update(result)
 
         if event == 'egcd':
             layout_egcd = [
@@ -60,12 +60,12 @@ def NTcalculator():
                 if event3 == 'run':
                     window_egcd.FindElement('_output_').Update('')
                     if not values3['first'].isdigit() or not values3['second'].isdigit():
-                        print("Неверно введены числа!")
+                        window_egcd.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values3['first'])
                     b = int(values3['second'])
                     result = Algorithms.egcd_origin(a, b)
-                    print(result)
+                    window_egcd.FindElement('_output_').Update(result)
 
         if event == 'cmp':
             layout_cmp = [
@@ -84,13 +84,13 @@ def NTcalculator():
                 if event4 == 'run':
                     window_cmp.FindElement('_output_').Update('')
                     if not values4['first'].isdigit() or not values4['second'].isdigit() or not values4['third'].isdigit():
-                        print("Неверно введены числа!")
+                        window_cmp.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values4['first'])
                     b = int(values4['second'])
                     mod = int(values4['third'])
                     result = Algorithms.compare(a, b, mod)
-                    print(result)
+                    window_cmp.FindElement('_output_').Update(result)
 
         if event == 'chinese':
             layout_chinese = [
@@ -130,10 +130,10 @@ def NTcalculator():
                                 mods.append(int(value))
                     if flag == True:
                         flag == False
-                        print("Неверно введены числа!")
+                        window_chinese.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     result = Algorithms.chinese_remainder(values, mods)
-                    print(result)
+                    window_chinese.FindElement('_output_').Update(result)
 
         if event == 'cmp_n':
             layout_cmp_n = [
@@ -152,19 +152,19 @@ def NTcalculator():
                 if event6 == 'run':
                     window_cmp_n.FindElement('_output_').Update('')
                     if not values6['module'].isdigit() or not values6['degree'].isdigit():
-                        print("Неверно введены числа!")
+                        window_cmp_n.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     str = values6['expression']
                     mod = int(values6['module'])
                     deg = int(values6['degree'])
                     result = Algorithms.compare_n(str, mod, deg)
                     if result == -1:
-                        print("Введено неверное выражение!")
+                        window_cmp_n.FindElement('_output_').Update("Введено неверное выражение!")
                         continue
                     if result == -2:
-                        print("Модуль должен быть простым!")
+                        window_cmp_n.FindElement('_output_').Update("Модуль должен быть простым!")
                         continue
-                    print(result)
+                    window_cmp_n.FindElement('_output_').Update(result)
 
         if event == 'Legendre':
             layout_Legendre = [
@@ -183,12 +183,12 @@ def NTcalculator():
                 if event7 == 'run':
                     window_Legendre.FindElement('_output_').Update('')
                     if not values7['value'].isdigit() or not values7['mod'].isdigit():
-                        print("Неверно введены числа!")
+                        window_Legendre.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values7['value'])
                     b = int(values7['mod'])
                     result = Algorithms.calculateLegendre(a, b)
-                    print(result)
+                    window_Legendre.FindElement('_output_').Update(result)
 
         if event == 'Shenks':
             layout_Shenks = [
@@ -207,12 +207,12 @@ def NTcalculator():
                 if event8 == 'run':
                     window_Shenks.FindElement('_output_').Update('')
                     if not values8['value'].isdigit() or not values8['mod'].isdigit():
-                        print("Неверно введены числа!")
+                        window_Shenks.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values8['value'])
                     b = int(values8['mod'])
                     result = Algorithms.RESSOL(a, b)
-                    print(result)
+                    window_Shenks.FindElement('_output_').Update(result)
 
         if event == 'primitive':
             layout_primitive = [
@@ -231,17 +231,18 @@ def NTcalculator():
                 if event9 == 'run':
                     window_primitive.FindElement('_output_').Update('')
                     if not values9['value'].isdigit() or not values9['mod'].isdigit():
-                        print("Неверно введены числа!")
+                        window_primitive.FindElement('_output_').Update("Неверно введены числа!")
                         continue
                     a = int(values9['value'])
                     b = int(values9['mod'])
                     result = Algorithms.is_primitive_root(a, b)
                     if result == -1:
-                        print('Невозможно факторизовать функцию Эйлера!'.format(a))
+                        window_primitive.FindElement('_output_').Update('Невозможно факторизовать функцию Эйлера!'.format(a))
                         continue
                     if result == True:
-                        print("{0} - первообразный корень по модулю {1}".format(a,b))
+                        window_primitive.FindElement('_output_').Update("{0} - первообразный корень по модулю {1}".format(a,b))
                     else:
-                        print("{0} - НЕ первообразный корень по модулю {1}!".format(a,b))
+                        window_primitive.FindElement('_output_').Update("{0} - НЕ первообразный корень по модулю {1}!".format(a,b))
 
-NTcalculator()
+if __name__ == "__main__":
+    NTcalculator()
