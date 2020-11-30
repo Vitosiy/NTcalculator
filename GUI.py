@@ -23,9 +23,9 @@ def NTcalculator():
 
         if event == 'gcd':
             layout_gcd = [
-                [sg.Text('Введите первое число: '), sg.InputText(key='first', change_submits= True,size=(10,1))],
-                [sg.Text('Введите второе число: '), sg.InputText(key='second', change_submits= True,size=(10,1))],
-                [sg.Text('НОД: '), sg.Output(key = '_output_')],
+                [sg.Text('Введите число A: '), sg.InputText(key='first', change_submits= True,size=(10,1))],
+                [sg.Text('Введите число B: '), sg.InputText(key='second', change_submits= True,size=(10,1))],
+                [sg.Text('НОД(A, B): '), sg.Output(key = '_output_')],
                 [sg.Button('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
             window_gcd = sg.Window('Алгоритм Евклида', layout_gcd, size=(300,150))
@@ -46,8 +46,8 @@ def NTcalculator():
 
         if event == 'egcd':
             layout_egcd = [
-                [sg.Text('Введите первое число: '), sg.InputText(key='first', change_submits= True,size=(10,1))],
-                [sg.Text('Введите второе число: '), sg.InputText(key='second', change_submits= True,size=(10,1))],
+                [sg.Text('Введите число A: '), sg.InputText(key='first', change_submits= True,size=(10,1))],
+                [sg.Text('Введите число B: '), sg.InputText(key='second', change_submits= True,size=(10,1))],
                 [sg.Text('РЕЗУЛЬТАТ: '), sg.Output(key= '_output_')],
                 [sg.Submit('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
@@ -69,13 +69,12 @@ def NTcalculator():
 
         if event == 'cmp':
             layout_cmp = [
-                [sg.Text('Введите первое число: '), sg.InputText(key='first', change_submits= True,size=(10,1))],
-                [sg.Text('Введите второе число: '), sg.InputText(key='second', change_submits= True,size=(10,1))],
-                [sg.Text('Введите модуль: '), sg.InputText(key='third', change_submits= True,size=(10,1))],
+                [sg.InputText(key='first', change_submits= True,size=(5,1)), sg.Text('x =='), sg.InputText(key='second', change_submits=True, size=(5, 1)),
+                 sg.Text('mod'), sg.InputText(key='third', change_submits=True, size=(5, 1))],
                 [sg.Text('РЕЗУЛЬТАТ: '), sg.Output(key= '_output_')],
                 [sg.Submit('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
-            window_cmp = sg.Window('Сравнение первой степени', layout_cmp,size=(340,180))
+            window_cmp = sg.Window('Сравнение первой степени', layout_cmp,size=(340,120))
             while True:  # The Event Loop
                 event4, values4 = window_cmp.read()
                 if event4 in (None, 'ВЫХОД'):
@@ -197,7 +196,7 @@ def NTcalculator():
                 [sg.Text('РЕЗУЛЬТАТ: '), sg.Output(key='_output_')],
                 [sg.Submit('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
-            window_Shenks = sg.Window('Алгоритм Шенкса', layout_Shenks,size=(300,120))
+            window_Shenks = sg.Window('Алгоритм Шенкса', layout_Shenks,size=(350,120))
 
             while True:  # The Event Loop
                 event8, values8 = window_Shenks.read()

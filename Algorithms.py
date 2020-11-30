@@ -52,7 +52,7 @@ def egcd(a, b, flag:bool = 0):  # расширенный
 
 def egcd_origin(a, b):
     gcd, x, y = egcd(a, b)
-    return "НОД: {0}, x = {1}, y = {2}".format(gcd, x, y)
+    return "НОД(A, B): {0}, x = {1}, y = {2}".format(gcd, x, y)
 
 
 ##############################################################################
@@ -274,8 +274,9 @@ def RESSOL(n, p):
         s += 1
     if s == 1:
         return pow(n, (p + 1) // 4, p)
+    z = 2
     for z in range(2, p):
-        if p - 1 == calculateLegendre(z, p):
+        if p - 1 == pow(z, (p - 1) // 2, p):
             break
     c = pow(z, q, p)
     r = pow(n, (q + 1) // 2, p)
