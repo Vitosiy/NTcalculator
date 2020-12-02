@@ -33,12 +33,20 @@ def isprimeE(n, b):
 # Алгоритмы Евклида
 ##############################################################################
 def gcd(a, b):  # прямой
+    if a < b:
+        tmp = a
+        a = b
+        b = tmp
     while b != 0:
         a, b = b, a % b
     return a
 
 
 def egcd(a, b, flag:bool = 0):  # расширенный
+    if a > b:
+        tmp = a
+        a = b
+        b = tmp
     x, y, u, v = 0, 1, 1, 0
     while a != 0:
         q, r = b // a, b % a
@@ -63,22 +71,20 @@ def compare(a, b, mod):
     if mod == 0:
         return "Модуль должен быть натуральным числом!"
     d = gcd(a, mod)
-    while a > mod:
-        a = a - mod
-    while b > mod:
-        b = b - mod
+    a = a % mod
+    b = b % mod
     if (d > 1) and (b % d != 0):
         return "Нет решений"
     elif d == 1:
         c = egcd(a, mod, 1)
-        a, b = a * c, b * c
+        b = b * c
         b = b % mod
         return "x сравним с {0} по модулю {1}".format(b, mod)
     elif (d > 1) and (b % d == 0):
         tmp_mod = mod
         a, b, mod = a // d, b // d, mod // d
         c = egcd(a, mod, 1)
-        a, b = a * c, b * c
+        b = b * c
         b = b % mod
         res: str = str(b)
 
@@ -88,7 +94,6 @@ def compare(a, b, mod):
     else:
         return "Ошибка! Нет решений!"
 
-
 ##############################################################################
 
 
@@ -96,14 +101,18 @@ def compare(a, b, mod):
 #  mod = [2, 3, 5, 7]
 #  b   = [1, 2, 2, 5]
 ##############################################################################
-def chinese_remainder(b, mod):
+def chinese_remainder(b, mods):
+    for i in range(len(mods)):
+        for j in range(len(mods)):
+            if i == j: continue
+            if not gcd(mods[i], mods[j]) == 1:
+                return "Модули не всзаимно простые! Система не разрешима!"
     sum = 0
-    prod = reduce(lambda b, a: b * a, mod)
-    for mod_i, b_i in zip(mod, b):
+    prod = reduce(lambda b, a: b * a, mods)
+    for mod_i, b_i in zip(mods, b):
         p = prod // mod_i
         sum += b_i * mul_inv(p, mod_i) * p
-    return "x сравним с {0} по модулю {1}".format(sum % prod, prod)
-
+    return f"x сравним с {sum % prod} по модулю {prod}"
 
 def mul_inv(a, b):
     b0 = b
@@ -118,6 +127,7 @@ def mul_inv(a, b):
 
 ##############################################################################
 
+
 # Cравнение по модулю степени простого числа
 ##############################################################################
 def diff(data):  # нахождение производной
@@ -130,15 +140,25 @@ def diff(data):  # нахождение производной
 
 
 def read(string) -> Dict[int, int]:  # сборка словаря из строки
-    parts = re.split(r'[+\-]', string)
+    new_string = ''
+    for symbol in string:
+        if symbol == " ":
+            continue
+        new_string += symbol
+    parts = re.findall(r'(-?\d*x?\^?-?\d*)', new_string)
     parts = [part.strip() for part in parts]
     data = {}
     for part in parts:
+        minus = 0
+        if part == "":
+            continue
         for symbol in part:
             if not symbol == 'x' and not symbol.isdigit() and not symbol == '^' and not symbol == '-':
                 return -1
-        coefficient = re.search(r'^(\d+)', part)
+        coefficient = re.search(r'^(-?\d+)', part)
         degree = re.search(r'x\^(\d+)', part)
+        if part.startswith("-"):
+            minus = 1
         if coefficient is None:
             coefficient = 1
         else:
@@ -202,8 +222,7 @@ def compare_n(string: str, module: int, deg: int):
                     b = module ** deg_iter
         solution_fx = (solution(data, a) / module ** deg_iter) % module
         solution_fx_diff = solution(data_diff, a) % module
-    return "{0} сравнимо с {1} по модулю {2}".format(string, solution_t, module ** deg)
-
+    return f"{string} сравнимо с {solution_t} по модулю {module ** deg}"
 
 ##############################################################################
 
@@ -231,28 +250,28 @@ def factorize_leg(n):
 
 
 def calculateLegendre(a, p):
-    if a >= p or a < 0:
+    if a >= p or a < 0:                                 #Свойство 2
         return calculateLegendre(a % p, p)
-    elif a == 0 or a == 1:
+    elif a == 0 or a == 1:                              #Свойство 3
         return a
-    elif a == 2:
+    elif a == 2:                                        #Свойство 5
         if p % 8 == 1 or p % 8 == 7:
             return 1
         else:
             return -1
-    elif a == p - 1:
+    elif a == p - 1:                                    #Свойство 4
         if p % 4 == 1:
             return 1
         else:
             return -1
-    elif not isPrime_leg(a):
+    elif not isPrime_leg(a):                            #Свойство 1
         factors = factorize_leg(a)
         product = 1
         for pi in factors:
             product *= calculateLegendre(pi, p)
         return product
     else:
-        if ((p - 1) // 2) % 2 == 0 or ((a - 1) // 2) % 2 == 0:
+        if ((p - 1) // 2) % 2 == 0 or ((a - 1) // 2) % 2 == 0:  #Свойство 6
             return calculateLegendre(p, a)
         else:
             return (-1) * calculateLegendre(p, a)
