@@ -108,11 +108,11 @@ def chinese_remainder(b, mods):
             if not gcd(mods[i], mods[j]) == 1:
                 return "Модули не всзаимно простые! Система не разрешима!"
     sum = 0
-    prod = reduce(lambda b, a: b * a, mods)
+    M = reduce(lambda b, a: b * a, mods)
     for mod_i, b_i in zip(mods, b):
-        p = prod // mod_i
-        sum += b_i * mul_inv(p, mod_i) * p
-    return f"x сравним с {sum % prod} по модулю {prod}"
+        M_i = M // mod_i
+        sum += b_i * mul_inv(M_i, mod_i) * M_i
+    return f"x сравним с {sum % M} по модулю {M}"
 
 def mul_inv(a, b):
     b0 = b
@@ -203,8 +203,8 @@ def compare_n(string: str, module: int, deg: int):
         if deg_iter == 1:
             for i in range(module):
                 solution_x = 0
-                for tmp in fx:
-                    solution_x += fx[tmp] * i ** tmp
+                for tmp in fx:                          #подставляем значения в выражение по модулю
+                    solution_x += fx[tmp] * i ** tmp    #сумма = коэффициент при x * подставленный x в степени по массиву
                 solution_x = solution_x % module
                 if solution_x == 0:
                     x0 = i
@@ -295,7 +295,7 @@ def RESSOL(n, p):
         return pow(n, (p + 1) // 4, p)
     z = 2
     for z in range(2, p):
-        if p - 1 == pow(z, (p - 1) // 2, p):
+        if calculateLegendre(z, p) == -1:
             break
     c = pow(z, q, p)
     r = pow(n, (q + 1) // 2, p)
