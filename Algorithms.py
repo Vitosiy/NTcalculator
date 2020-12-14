@@ -106,7 +106,7 @@ def chinese_remainder(b, mods):
         for j in range(len(mods)):
             if i == j: continue
             if not gcd(mods[i], mods[j]) == 1:
-                return "Модули не всзаимно простые! Система не разрешима!"
+                return "Модули не взаимно простые! Система не разрешима!"
     sum = 0
     M = reduce(lambda b, a: b * a, mods)
     for mod_i, b_i in zip(mods, b):
@@ -145,6 +145,9 @@ def read(string) -> Dict[int, int]:  # сборка словаря из стро
         if symbol == " ":
             continue
         new_string += symbol
+    for symbol in new_string:
+        if not symbol == 'x' and not symbol.isdigit() and not symbol == '^' and not symbol == '-' and not symbol == '+':
+            return -1
     parts = re.findall(r'(-?\d*x?\^?-?\d*)', new_string)
     parts = [part.strip() for part in parts]
     data = {}
@@ -292,7 +295,8 @@ def RESSOL(n, p):
         q //= 2
         s += 1
     if s == 1:
-        return pow(n, (p + 1) // 4, p)
+        r = pow(n, (p + 1) // 4, p)
+        return f"Корни: {r}, {p-r}"
     z = 2
     for z in range(2, p):
         if calculateLegendre(z, p) == -1:
@@ -313,7 +317,7 @@ def RESSOL(n, p):
         c = (b * b) % p
         t = (t * c) % p
         m = i
-    return "Корни: {0} {1}".format(r, p-r)
+    return f"Корни: {r}, {p-r}"
 
 ##############################################################################
 

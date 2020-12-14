@@ -107,6 +107,8 @@ def NTcalculator():
                  sg.Text('mod'), sg.InputText(key='mod3', change_submits=True, size=(5, 1))],
                 [sg.Text('x =='), sg.InputText(key='value4', change_submits=True, size=(5, 1)),
                  sg.Text('mod'), sg.InputText(key='mod4', change_submits=True, size=(5, 1))],
+                [sg.Text('x =='), sg.InputText(key='value5', change_submits=True, size=(5, 1)),
+                 sg.Text('mod'), sg.InputText(key='mod5', change_submits=True, size=(5, 1))],
                 [sg.Text('РЕЗУЛЬТАТ: '), sg.Output(key='_output_')],
                 [sg.Submit('Посчитать', key='run'), sg.Cancel('ВЫХОД')]
             ]
@@ -193,7 +195,13 @@ def NTcalculator():
                     a = int(values7['value'])
                     b = int(values7['mod'])
                     result = Algorithms.calculateLegendre(a, b)
-                    window_Legendre.FindElement('_output_').Update(result)
+                    if result == 1:
+                        res = f"{a} является квадратичным вычетом по модулю {b}"
+                    elif result == -1:
+                        res = f"{a} не является квадратичным вычетом по модулю {b}"
+                    elif result == 0:
+                        res = f"{a} делится на {b}"
+                    window_Legendre.FindElement('_output_').Update(res)
 
         if event == 'Shenks':
             layout_Shenks = [
